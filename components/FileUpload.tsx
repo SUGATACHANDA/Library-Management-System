@@ -18,7 +18,14 @@ const {
 
 const authenticator = async () => {
   try {
-    const response = await fetch(`${config.env.apiEndpoint}/api/imagekit`);
+
+    let uploadURL
+    if (process.env.NODE_ENV === "development") {
+      uploadURL = config.env.apiEndpoint
+    } else {
+      uploadURL = config.env.prodApiEndpoint
+    }
+    const response = await fetch(`${uploadURL}/api/imagekit`);
 
     if (!response.ok) {
       const errorText = await response.text();
